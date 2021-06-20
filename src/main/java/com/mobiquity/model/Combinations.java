@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class Combinations {
 	private final List<Item> items;
 	private final double maxWeight;
-	private final List<Item> combinations;
+	private final Deque<Item> combinations;
 	private final List<Item> bestCombination;
 	private double bestCost;
 	private double bestWeight;
@@ -14,7 +14,7 @@ public class Combinations {
 	public Combinations(List<Item> items, double maxWeight) {
 		this.items = items;
 		this.maxWeight = maxWeight;
-		combinations = new ArrayList<>(items.size() - 1);
+		combinations = new ArrayDeque<>(items.size() - 1);
 		bestCombination = new ArrayList<>();
 	}
 	
@@ -37,9 +37,9 @@ public class Combinations {
 		
 		for (int i = currentIndex + 1; i < items.size(); i++) {
 			Item item = items.get(i);
-			combinations.add(item);
+			combinations.push(item);
 			calculate(i, currentWeight + item.getWeight(), currentCost + item.getCost());
-			combinations.remove(item);
+			combinations.pop();
 		}
 	}
 	
